@@ -1,0 +1,825 @@
+<style>
+
+body{
+  background-color:#000;
+  color:#fff;
+  font-family: monospace;
+  -webkit-font-smoothing:antialiased;
+  margin: 0;
+  overflow: hidden;
+}
+
+body.paused *{
+  -webkit-animation-play-state:paused!important;
+  -moz-animation-play-state:paused!important;
+  -o-animation-play-state:paused!important; 
+  animation-play-state:paused!important;
+}
+
+a{
+  color:yellow;
+  background-color: #111;
+  margin-bottom: 2px;
+  padding: 2px;
+  cursor: pointer;
+}
+a:hover,a:active{
+  background-color: #444;
+}
+a.on{
+  background-color: #ddd;
+  color:#000;
+}
+
+*{
+  -webkit-user-select:none;
+}
+
+#container{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  -webkit-transition:-webkit-filter 1s;
+}
+
+.circle{
+  border-radius: 100%;
+}
+
+.sat-container{
+  position: absolute;
+  top: 0;
+  left:0;
+  z-index: -1;
+  -webkit-transition: all 1s ease;
+}
+.satellite{
+  border-radius: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: all 1s ease;
+}
+.green-bomb{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin:-100px 0 0 -100px;
+}
+.green-bomb>b{
+  display: block;
+  width:50px;
+  height:50px;
+  background-color: limegreen;
+  border-radius:100%;
+  -webkit-filter:blur(14px);
+  -webkit-animation: burst 2s linear 1;
+}
+@-webkit-keyframes burst{
+  0%   { margin:0px;-webkit-transform:scale(3); }
+  100% { margin:200px;-webkit-transform:scale(.3); }
+}
+#circle-1{
+  -webkit-transition: background-color 1s ease;
+  background-color:rgba(0,0,0,.9);
+  width:200px;
+  height:200px;
+  position: relative;
+}
+#circle-1-container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin:-100px 0 0 -100px;
+}
+#circle-1.quiet .satellite{
+  background-color: #fff!important;
+  border-color:#fff!important;
+}
+#circle-1.corners .sat-container{
+  border: 1px solid rgba(255,255,255,.5);
+}
+#circle-1.color-borders{
+  background-color:#000!important;
+}
+#circle-1.color-borders .satellite{
+  border:2px solid;
+  background-color:rgba(0,0,0,.5)!important;
+}
+.pos-oscillate-fast{
+  -webkit-animation: pos_oscillate 4s infinite linear;
+}
+.pos-oscillate-slow{
+  -webkit-animation: pos_oscillate 8s infinite linear;
+}
+
+@-webkit-keyframes pos_oscillate {
+  0%   { top: 0%; }
+  25%  { top: -10%; }
+  50%  { top: 0%; }
+  75%  { top: 10%; }
+  100% { top: 0%; }
+}
+#circle-2 {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: rgba(150, 255, 245, 0.8);
+  border-radius: 100%;
+  box-sizing:border-box;
+  border:4px solid rgb(255, 255, 245);
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  -webkit-transition:transform 6s ease, -webkit-filter 4s, background-color, 4s;
+  transform:scale(.0001);
+  margin:-100px 0 0 -100px;
+
+}
+#circle-2.moody{
+  -webkit-filter:blur(4px);
+  -webkit-animation: blue-glow 4s linear infinite;
+}
+
+@-webkit-keyframes blue-glow{
+  0%   { background-color:#fff; }
+  25%  { background-color:rgb(10, 162, 240); }
+  50%  { background-color:rgb(23, 88, 121); }
+  75%  { background-color:rgb(10, 162, 240); }
+  100% { background-color:#fff; }
+}
+#circle-3 {
+  
+  width: 200px;
+  height: 200px;
+  background-color: #1A042D;
+  border-radius: 50%;
+  box-sizing:border-box;
+  border:4px solid rgb(98, 36, 249);
+  -webkit-transition:transform 16s ease, -webkit-filter 4s, transform-origin 4s, border-radius, 4s, background-color, 4s;
+  transform:scale(.0001);
+}
+#circle-3.moody{
+  -webkit-filter:blur(4px);
+  -webkit-animation: purple-glow 4s linear infinite;
+  transform-origin:47% 50%;
+  border-radius:47%;
+}
+@-webkit-keyframes purple-glow{
+  0%   { background-color:#1A042D; }
+  25%  { background-color:#9D82B5; }
+  50%  { background-color:#7932B8; }
+  75%  { background-color:#39333F; }
+  100% { background-color:#1A042D; }
+}
+
+.contract #circle-2,.contract #circle-3{
+  -webkit-transition:transform 2s ease, -webkit-filter 4s, transform-origin 4s, border-radius, 4s;
+}
+
+#circle-3-container{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -2;
+  margin:-100px 0 0 -100px;
+
+}
+#circle-4 {  
+  width: 200px;
+  height: 200px;
+  background-color:rgba(255,255,255,.9);
+  border-radius: 100%;
+  -webkit-transition:transform 6s ease;
+  transform:scale(.0001);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -3;
+  -webkit-animation: glowing 4s linear infinite;
+  margin:-100px 0 0 -100px;
+
+}
+@-webkit-keyframes glowing{
+  0%   { background-color:rgba(255,255,255,.9); }
+  50%  { background-color:rgba(255,255,255,.5); }
+  100% { background-color:rgba(255,255,255,.9); }
+}
+
+.rotating{
+  -webkit-animation: rotating 128s linear infinite;
+}
+.rotating-fast{
+  -webkit-animation: rotating 4s linear infinite;
+}
+
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+#controls{
+  position: absolute;
+  top: 0;
+}
+#controls *{
+  display: block;
+}
+.draggable{
+  width:70px;
+  height:70px;
+  border:2px solid #fff;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  border-radius:100%;
+  margin-top: -35px;
+}
+@-webkit-keyframes spaceboots {
+  0% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
+  10% { -webkit-transform: translate(-1px, -2px) rotate(0deg); }
+  20% { -webkit-transform: translate(-2px, 0px) rotate(1deg); }
+  30% { -webkit-transform: translate(0px, 2px) rotate(0deg); }
+  40% { -webkit-transform: translate(1px, -1px) rotate(1deg); }
+  50% { -webkit-transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { -webkit-transform: translate(0px, 1px) rotate(0deg); }
+  70% { -webkit-transform: translate(2px, 1px) rotate(-1deg); }
+  80% { -webkit-transform: translate(-1px, -1px) rotate(1deg); }
+  90% { -webkit-transform: translate(2px, 2px) rotate(0deg); }
+  100% { -webkit-transform: translate(1px, -2px) rotate(-1deg); }
+}
+.shake {
+  -webkit-animation-name: spaceboots;
+  -webkit-animation-duration: .1s;
+  -webkit-transform-origin:50% 50%;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
+.contrast{
+  -webkit-filter: contrast(20);
+}
+</style>
+
+<div id="container">
+
+  <div id="circle-1-container">
+    <div id="circle-1" class="circle"></div>
+  </div>
+
+  <div id="circle-2"></div>
+  
+  <div id="circle-3-container">
+    <div id="circle-3"></div>
+  </div>
+
+  <div id="circle-4"></div>
+
+
+</div>
+<div class="draggable"></div>
+
+
+<!-- <div id="controls">
+  <a onclick="location.reload();">restart</a>
+  <a onclick="a.pause_play();">pause / play</a>
+  <span>Circle 1</span>
+  <a class="tog" onclick="circle_1.toggle_color();">colors</a>
+  <a class="tog" onclick="circle_1.toggle_corners()">corners</a>
+  <a class="tog" onclick="circle_1.toggle_color_borders()">color borders</a>
+  <a onclick="circle_1.spawn_satellite()">satellite +</a>
+  <a onclick="circle_1.kill_satellite()">satellite -</a>
+  <span>Circle 2</span>
+  <a class="tog" onclick="circle_2.toggle_mood()">mood</a>
+  <span>Circle 3</span>
+  <a class="tog" onclick="circle_3.toggle_mood()">mood</a>
+  <span>global</span>
+  <a class="tog" onclick="a.toggle_contract()">contract</a>
+
+</div> -->
+
+<script src="jquery-2.1.3.min.js"></script>
+<script>
+
+a = {
+  run:true,
+  pause_play:function(){
+    a.run = !a.run;
+    $('body').toggleClass('paused');
+  },
+  translate_top: 0,
+  scale: 1,
+  colors:[
+  '#57C77C',
+  '#0091FF',
+  '#912CFF',
+  '#1AFF00',
+  '#14E7D3',
+  '#2551FF',
+  '#FAFFFF',
+  '#77FFEB',
+  '#F134FF',
+  '#5028FF'
+  ],
+  color_cursor:0,
+  calculate_circle_edges:function(){
+    
+    $('#circle-3-container').removeClass('rotating-fast').css('transform','none');
+
+    circle_4_edge = Math.round((( window.innerWidth - $('#circle-4')[0].getBoundingClientRect().width ) / window.innerWidth) * 100);
+    circle_3_edge = Math.round((( window.innerWidth - $('#circle-3')[0].getBoundingClientRect().width ) / window.innerWidth) * 100);
+    circle_2_edge = Math.round((( window.innerWidth - $('#circle-2')[0].getBoundingClientRect().width ) / window.innerWidth) * 100);
+    circle_1_edge = Math.round((( window.innerWidth - $('#circle-1').width() ) / window.innerWidth) * 100);
+
+    $('#circle-3-container').addClass('rotating-fast');
+
+  },
+  init:function(){
+    
+    i = 0;
+    timeline = setInterval(function(){
+
+      if( a.run == false ){ return; }
+
+      if( i == 0 ){
+        circle_1.init();
+        circle_1.ele.css('background-color','rgba(70,70,70,.9)');
+      }
+      
+      if( i>0 && i<10 ){
+        circle_1.spawn_satellite();
+      }
+
+      if( i == 8){
+        circle_2.init();
+      }
+
+      if( i == 10){
+        circle_3.init();        
+        circle_4.init();
+      }
+
+      if( i == 16 ){
+
+        a.calculate_circle_edges();
+
+        circle_3.cont.addClass('rotating-fast');
+        requestAnimationFrame(proximity_response);
+      }
+
+
+      i++;
+
+    },1000);
+
+    // the animation loop calculates time elapsed since the last loop
+    // and only draws if your specified fps interval is achieved
+    var stop=false;
+    var frameCount=0;
+    var fps,fpsInterval,startTime,now,then,elapsed;
+
+    // initialize the timer variables and start the animation
+
+    function startAnimating(fps){
+      fpsInterval=1000/fps;
+      then=Date.now();
+      startTime=then;
+      animate();
+    }
+
+    function animate() {
+
+        // request another frame
+
+        requestAnimationFrame(animate);
+
+        // calc elapsed time since last loop
+        now = Date.now();
+        elapsed = now - then;
+        // if enough time has elapsed, draw the next frame
+        if (elapsed > fpsInterval) {
+
+            // Get ready for next frame by setting then=now, but also adjust for your
+            // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
+            then = now - (elapsed % fpsInterval);
+
+            // Put drawing code here
+
+            if( a.run == false ){ return; }
+            
+            // circle 1 rotation and pulse
+            circle_1.rot+=.25;
+            if( circle_1.shrinking ){
+              circle_1.scale -= .0005;
+              if( circle_1.scale < .9 ){ circle_1.shrinking = false; }
+            }else{
+              circle_1.scale += .0005;
+              if( circle_1.scale > 1.1 ){ circle_1.shrinking = true; }
+            }
+
+            // update circle 1
+            circle_1.cont.css('transform','rotate('+circle_1.rot+'deg) scale('+circle_1.scale+')');
+
+
+        }
+    }
+    
+    startAnimating(30);
+
+  },
+  toggle_contract:function(){
+    $('body').toggleClass('contract');
+
+    if( $('body').hasClass('contract') ){
+      circle_2.scale = 1.6
+      circle_2.ele.css('transform','scale('+circle_2.scale+')');  
+
+      circle_3.scale = 2.6;
+      circle_3.ele.css('transform','scale('+circle_3.scale+')');
+    }else{
+      //release
+      circle_2.scale = 2;
+      circle_2.ele.css('transform','scale('+circle_2.scale+')');  
+
+      circle_3.scale = 3.25;
+      circle_3.ele.css('transform','scale('+circle_3.scale+')');
+    }    
+
+  }
+}
+
+circle_1 = {
+  ele: $('#circle-1'),
+  cont: $('#circle-1-container'),
+  rot:0,
+  scale:1,
+  shrinking:true,
+  color:0,
+  init:function(){
+    circle_1.player_a.src = "audio/circle_1.ogg";
+    circle_1.player_b.src = "audio/circle_1.ogg";
+  },
+  spawn_satellite:function(){
+    width = circle_1.ele.width();
+    circle_1.color+=40;
+    if( a.color_cursor == a.colors.length ){ a.color_cursor = 0; }
+    a.color_cursor++;
+    bgc = a.colors[a.color_cursor];
+    circle_1.ele.append("<div class='sat-container' style='width:"+width+";height:"+width+";'><div class='circle satellite pos-oscillate-fast' style='background-color:"+bgc+";border-color:"+bgc+"'></div></div>");
+    circle_1.reangle_sats();
+  },
+  reangle_sats:function(){
+    amount_of_sats = circle_1.ele.find('.satellite').length;
+    angle = 360 / amount_of_sats;
+    cur_angle = 0;
+    circle_1.ele.find('.sat-container').each(function(){
+      $(this).css('transform','rotate('+cur_angle+'deg)');
+      cur_angle = cur_angle + angle;
+    });
+  },
+  kill_satellite:function(){
+    circle_1.ele.find('.sat-container').last().remove();
+    circle_1.reangle_sats();
+  },
+  toggle_color:function(){
+    circle_1.ele.toggleClass('quiet');
+  },
+  toggle_corners:function(){
+    circle_1.ele.toggleClass('corners');
+  },
+  toggle_color_borders:function(){
+    circle_1.ele.toggleClass('color-borders');
+  },
+  start_audio:function(){
+    circle_1.audio_run = true;
+    circle_1.loop_audio();
+  },
+  stop_audio:function(){
+    circle_1.audio_run = false;
+    circle_1.player_a.pause();
+    circle_1.player_b.pause();
+    // $('#circle-3-audio-end')[0].currentTime = 0;
+    // $('#circle-3-audio-end')[0].play();
+  },
+  
+  audio_run: false,  
+  current_player:'a',
+  player_a : document.createElement("audio"),
+  player_b : document.createElement("audio"),
+  
+  loop_audio: function(){
+    if(circle_1.audio_run == false){return;}
+    console.log('restarting circle 1 audio loop')
+    var player = null;
+
+    if(circle_1.current_player == "a"){
+      player = circle_1.player_b;
+      circle_1.current_player = "b";
+    
+    }else{
+      player = circle_1.player_a;
+      circle_1.current_player = "a";
+    }
+
+    player.play();
+
+    setTimeout(circle_1.loop_audio, 20317);
+  }
+}
+
+circle_2 = {
+  ele: $('#circle-2'),
+  scale:.0001,
+  init:function(){
+    circle_2.ele.css('transform','scale(2)');
+    circle_2.scale = 2;
+  },
+  toggle_mood:function(){
+    circle_2.ele.toggleClass('moody');
+  }
+}
+
+circle_3 = {
+  ele: $('#circle-3'),
+  cont: $('#circle-3-container'),
+  scale:.0001,
+  init:function(){
+    circle_3.ele.css('transform','scale(3.25)');
+    circle_3.scale = 3.25;
+    
+    circle_3.player_a.src = "audio/circle_3.ogg";
+    circle_3.player_b.src = "audio/circle_3.ogg";
+  },
+  toggle_mood:function(){
+    circle_3.ele.toggleClass('moody');
+  },
+  start_audio:function(){
+    circle_3.audio_run = true;
+    circle_3.loop_audio();
+  },
+  stop_audio:function(){
+    circle_3.audio_run = false;
+    circle_3.player_a.pause();
+    circle_3.player_b.pause();
+    $('#circle-3-audio-end')[0].currentTime = 0;
+    $('#circle-3-audio-end')[0].play();
+  },
+  
+  audio_run: false,  
+  current_player:'a',
+  player_a : document.createElement("audio"),
+  player_b : document.createElement("audio"),
+  
+  loop_audio: function(){
+    if(circle_3.audio_run == false){return;}
+    console.log('restarting circle 3 audio loop')
+    var player = null;
+
+    if(circle_3.current_player == "a"){
+      player = circle_3.player_b;
+      circle_3.current_player = "b";
+    
+    }else{
+      player = circle_3.player_a;
+      circle_3.current_player = "a";
+    }
+
+    player.play();
+
+    setTimeout(circle_3.loop_audio, 20317);
+  }
+}
+// circle 3 audio
+
+
+
+
+circle_4 = {
+  ele: $('#circle-4'),
+  init:function(){
+    circle_4.ele.css('transform','scale(4.5)');
+  }
+}
+
+a.init();
+
+
+
+var green_bomb = {
+  spawner: null,
+  run: false,
+  init:function(){
+    green_bomb.run = true;
+    $('#container').addClass('shake contrast');
+  },
+  die:function(){
+    green_bomb.run = false;
+    $('#container').removeClass('shake contrast');
+  },
+  spawn:function(){
+    rotate = (Math.random()*360);
+    $bomb = $('<div style="-webkit-transform:rotate('+rotate+'deg)" class="green-bomb"><b></b><b></b></div>');
+    $('#container').append($bomb);
+    
+    setTimeout(function(){
+      $('.green-bomb:first').remove();
+    },2000);
+  }
+}
+
+// green bomber
+setInterval(function(){
+
+  if( !green_bomb.run ){return;}
+  green_bomb.spawn();
+
+},500)
+
+// page scripts
+$('a.tog').click(function(){
+  $(this).toggleClass('on');
+})
+
+// proximity response
+// started in the timeline loop above
+var proximity = 0;
+var prox_level = 5;
+
+var circle_4_edge = 0;
+var circle_3_edge = 0;
+var circle_2_edge = 0;
+var circle_1_edge = 0;
+
+var proximity_response = function(){
+
+  
+  
+  // approaching circle 4
+  if( proximity > circle_4_edge && prox_level >= 5 ){ 
+    console.log('circle 4 breached');
+    prox_level = 4;
+  }
+
+  // leaving circle 4
+  if( proximity < circle_4_edge && prox_level < 5){ 
+    console.log('circle 4 left');
+    prox_level = 5;
+  }
+  
+  // approaching circle 3
+  if( proximity > circle_3_edge && prox_level >= 4 ){ 
+    console.log('circle 3 breached');
+    circle_3.toggle_mood();
+    prox_level = 3;
+  }
+
+  // leaving circle 3
+  if( proximity < circle_3_edge && prox_level < 4){ 
+    console.log('circle 3 left');
+    circle_3.toggle_mood();
+    prox_level = 4;
+  }
+
+  // approaching circle 2
+  if( proximity > circle_2_edge && prox_level >= 3 ){ 
+    console.log('circle 2 breached');
+    circle_2.toggle_mood()
+    circle_3.start_audio();
+    a.toggle_contract()
+    circle_1.toggle_color();
+
+    prox_level = 2;
+  }
+
+  // leaving circle 2
+  if( proximity < circle_2_edge && prox_level < 3){ 
+    console.log('circle 2 left');
+    circle_2.toggle_mood()
+    circle_3.stop_audio();
+    a.toggle_contract()
+    circle_1.toggle_color();
+
+    prox_level = 3;
+  }
+
+  // approaching circle 1
+  if( proximity > circle_1_edge && prox_level >= 2 ){ 
+    console.log('circle 1 breached');
+    green_bomb.init();
+    circle_1.start_audio();
+    prox_level = 1;
+  }
+
+  // leaving circle 1
+  if( proximity < circle_1_edge && prox_level < 2){ 
+    console.log('circle 1 left');
+    circle_1.stop_audio();
+    green_bomb.die();
+    prox_level = 2;
+  }
+  
+  requestAnimationFrame(proximity_response);
+}
+
+
+
+</script>
+<script src="draggabilly.pkgd.min.js"></script>
+<script>
+
+  init_drag = function(){
+    var $draggable = $('.draggable').draggabilly({
+      axis: 'x'
+    });
+    $draggable.on( 'dragMove', function(event,pointer,moveVector){
+      proximity = Math.round((pointer.x/window.innerWidth)*100)*2;
+    });
+  }
+
+  $(document).ready( function() {
+    init_drag();
+  });
+
+</script>
+
+
+<audio id="circle-3-audio-end">
+  <source src="audio/circle_3_end.ogg" type="audio/ogg">
+</audio>
+<audio id="circle-1-audio-end">
+  <source src="audio/circle_1_end.ogg" type="audio/ogg">
+</audio>
+<script>
+
+// omnipresent ambient loop
+  
+var current_player = "a";
+var player_a = document.createElement("audio");
+var player_b = document.createElement("audio");
+player_a.src = "audio/ambient.ogg";
+player_b.src = player_a.src;
+
+function loopAmbient(){
+  console.log('restarting loop');
+  var player = null;
+
+  if(current_player == "a"){
+    player = player_b;
+    current_player = "b";
+  
+  }else{
+    player = player_a;
+    current_player = "a";
+  }
+
+  player.play();
+
+  setTimeout(loopAmbient, 86900);
+}
+
+loopAmbient();
+
+$(window).keydown(function(e){
+  console.log(e.which)
+  // up
+  if(e.which == 38){
+    a.translate_top -= 5;
+    $('body').attr('style','-webkit-transform:scale('+a.scale+') translate(0,'+a.translate_top+'px)');
+    a.calculate_circle_edges();
+  }
+
+  // down
+  if(e.which == 40){
+    a.translate_top += 5;
+    $('body').attr('style','-webkit-transform:scale('+a.scale+') translate(0,'+a.translate_top+'px)');
+    a.calculate_circle_edges();
+
+  }
+
+  if(e.which == 39){
+    a.scale += .05;
+    $('body').attr('style','-webkit-transform:scale('+a.scale+') translate(0,'+a.translate_top+'px)');
+    a.calculate_circle_edges();
+
+  }
+
+  if(e.which == 37){
+    a.scale -= .05;
+    $('body').attr('style','-webkit-transform:scale('+a.scale+') translate(0,'+a.translate_top+'px)');
+    a.calculate_circle_edges();
+
+  }
+});
+// -webkit-transform:translate(0,0px) scale(1);
+</script>
+
